@@ -1,7 +1,7 @@
 import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
-
+languages = [{'name' : 'JavaScript'}, {'name' : 'Python'}, {'name' : 'Ruby'}]
 app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
 
@@ -23,7 +23,9 @@ def predict():
     return render_template('index.html', prediction_text='Employee Salary should be $ {}'.format(output))
 @app.route('/test',methods=['POST'])
 def test():
-    return "it work";
+    language = {'name': request.json['name']}
+    languages.append(language)
+    return jsonify({'languages': languages})
 
 if __name__ == "__main__":
     app.run(debug=True)
